@@ -103,6 +103,9 @@ export async function getGroupMembers(groupName: string, groupSize: number, isCo
         const res = await fetch(url, {
             cache: "force-cache", // Use cache when available
             next: { revalidate: 60 * 60 * 24 }, // Revalidate once per day (86,400 seconds)
+            headers: {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            },
         });
         if (!res.ok) throw new Error(`Failed to fetch group page: ${res.statusText}`);
 
