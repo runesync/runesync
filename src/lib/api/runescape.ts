@@ -95,40 +95,57 @@ async function fetchAndCombineGroupHiscores(page: number) {
 */
 
 export async function getGroupMembers(groupName: string, groupSize: number, isCompetitive: boolean): Promise<string[]> {
-    console.log('getting group members');
+    console.log('Getting group members...');
     const mode = isCompetitive ? "competitive" : "regular";
     const url = `https://rs.runescape.com/hiscores/group-ironman/${mode}/${groupSize}-player/${encodeURIComponent(groupName)}`;
+
+    console.log(`Fetching URL: ${url}`);
 
     try {
         const res = await fetch(url, {
             cache: "force-cache", // Use cache when available
-            next: { revalidate: 60 * 60 * 24 }, // Revalidate once per day (86,400 seconds)
+            next: { revalidate: 60 * 60 * 24 }, // Revalidate daily
             headers: {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
+                "Accept-Language": "en-US,en;q=0.9",
+                "Connection": "keep-alive",
             },
         });
-        if (!res.ok) throw new Error(`Failed to fetch group page: ${res.statusText}`);
+
+        console.log(`Response Status: ${res.status}`);
+
+        if (!res.ok) {
+            console.error(`Failed to fetch group page: ${res.status} - ${res.statusText}`);
+            console.error("Response Headers:", Object.fromEntries(res.headers.entries()));
+
+            const errorText = await res.text();
+            console.error("Response Body:", errorText.slice(0, 500)); // Log first 500 characters
+
+            throw new Error(`Fetch failed with status ${res.status}`);
+        }
 
         const html = await res.text();
-        const page = cheerio.load(html); // Explicitly define type
+        console.log(`Fetched HTML length: ${html.length}`);
 
-        // Grab the first div directly under the section
+        const page = cheerio.load(html);
         // @ts-ignore
         const firstDiv = page('section[data-testid="GroupDetails"] > div').first();
         const members: string[] = [];
 
-        // Find all anchor tags inside the first div and extract the text
         firstDiv.find("a").each((_i, elem) => {
             const memberName = page(elem).text().trim().replace(/\u00A0/g, " ");
             members.push(memberName);
         });
 
+        console.log(`Extracted Members: ${members.join(", ") || "None"}`);
         return members;
     } catch (error) {
         console.error("Error fetching group members:", error);
         return [];
     }
 }
+
 
 export async function getPlayerHiscores(playerNames: string | string[]): Promise<Record<string, PlayerHiscores | null>> {
     const BASE_URL = "https://secure.runescape.com/m=hiscore/index_lite.json";
