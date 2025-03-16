@@ -1,3 +1,5 @@
+export const runtime = "nodejs";
+
 import {getGroupMembers, getPlayerHiscores, getRuneMetricsProfiles} from "@/lib/api/runescape";
 import GroupTabs from '@/components/app/groups/group-tabs';
 import {titleCase} from '@/lib/utils';
