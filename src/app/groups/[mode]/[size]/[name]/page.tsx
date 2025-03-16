@@ -4,7 +4,8 @@ import {titleCase} from '@/lib/utils';
 import GroupSummary from '@/components/app/groups/group-summary';
 import {Badge} from '@/components/ui/badge';
 
-export default async function GroupHome({params}: { params: { mode: string; size: string; name: string } }) {
+
+export default async function GroupHome({params}: { params: Promise<{ mode: string; size: string; name: string }> }) {
     const {name, size, mode} = await params;
 
     const groupName = decodeURIComponent(name.replace(/-/g, " "));

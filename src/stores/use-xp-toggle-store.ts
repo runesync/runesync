@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import {createJSONStorage, persist} from "zustand/middleware";
 
 // Zustand store with persistence for XP toggles
 interface XpToggleStore {
@@ -18,7 +18,7 @@ export const useXpToggleStore = create<XpToggleStore>()(
         }),
         {
             name: "xp-toggle-storage", // Local storage key
-            getStorage: () => localStorage, // Ensures it persists across refreshes
+            storage: createJSONStorage(() => localStorage), // Ensures it persists across refreshes
         }
     )
 );

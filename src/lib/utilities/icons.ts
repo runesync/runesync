@@ -36,7 +36,7 @@ export const icons: Record<string, string> = {
     "necromancy": `${SKILL_ICON_BASE_URL}necromancy.png`,
 };
 
-export const getSkillIcon = (skillName: string) => icons[skillName.toLowerCase()] ?? "/assets/skills/default.png";
+export const getSkillIcon = (skillName?: string | undefined) => skillName ? icons[skillName?.toLowerCase()] : "/assets/skills/default.png";
 
 export const getProfilePicture = (player: string) =>
     `https://secure.runescape.com/m=avatar-rs/${encodeURIComponent(player)}/chat.png`;
@@ -46,7 +46,7 @@ const xpIcon = "/assets/skills/overall.png"; // Generic XP icon
 const combatIcon = "/assets/activity/combat.png"; // Generic combat icon
 const lootIcon = "/assets/activity/loot_beam.png"; // Generic combat icon
 
-const activityPatterns: { regex: RegExp; icon: (match?: string) => string }[] = [
+const activityPatterns: { regex: RegExp; icon: (match?: string) => string, category: string }[] = [
     { regex: /^Levelled up (.+)\.$/i, icon: getSkillIcon, category: 'Skills' }, // Matches "Levelled up Slayer."
     { regex: /^Gained (\d+) XP in (.+)\.$/i, icon: getSkillIcon, category: 'Skills' }, // Matches "Gained 10000 XP in Fishing."
     { regex: /XP in ([A-Za-z\s]+)$/i, icon: getSkillIcon, category: 'Skills' }, // Matches any XP event like "34000000XP in Necromancy"

@@ -46,29 +46,31 @@ export default function ActivityCategoryFilter({
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
-                <Command>
-                    <CommandInput placeholder="Search categories..."/>
-                    <CommandList>
-                        <CommandEmpty>No categories found.</CommandEmpty>
-                        <CommandGroup>
-                            <>
-                                {activityCategories.map((category) => (
-                                    <CommandItem
-                                        key={category}
-                                        value={category}
-                                        onSelect={() => toggleCategory(category)}
-                                        className="cursor-pointer"
-                                    >
-                                        <Check
-                                            className={cn("mr-2 h-4 w-4", selectedCategories.includes(category) ? "opacity-100" : "opacity-0")}
-                                        />
-                                        {category}
-                                    </CommandItem>
-                                ))}
-                            </>
-                        </CommandGroup>
-                    </CommandList>
-                </Command>
+                <>
+                    <Command>
+                        <CommandInput placeholder="Search categories..."/>
+                        <CommandList>
+                            <CommandEmpty>No categories found.</CommandEmpty>
+                            <CommandGroup>
+                                <>
+                                    {activityCategories.map((category) => (
+                                        <CommandItem
+                                            key={category}
+                                            value={category}
+                                            onSelect={() => toggleCategory(category)}
+                                            className="cursor-pointer"
+                                        >
+                                            <Check
+                                                className={cn("mr-2 h-4 w-4", selectedCategories.includes(category) ? "opacity-100" : "opacity-0")}
+                                            />
+                                            {category}
+                                        </CommandItem>
+                                    ))}
+                                </>
+                            </CommandGroup>
+                        </CommandList>
+                    </Command>
+                </>
             </PopoverContent>
         </Popover>
     );

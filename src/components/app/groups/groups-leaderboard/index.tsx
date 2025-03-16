@@ -56,7 +56,6 @@ export default function GroupsLeaderboard({
                         {/* Mode Switching Badges */}
                         <Badge
                             variant={hasCompetitive ? "default" : "secondary"}
-                            disabled={!hasCompetitive}
                             className="cursor-pointer"
                             onClick={() => handleModeRedirect("competitive")}
                         >
@@ -64,7 +63,6 @@ export default function GroupsLeaderboard({
                         </Badge>
                         <Badge
                             variant={hasRegular ? "default" : "secondary"}
-                            disabled={!hasRegular}
                             className="cursor-pointer"
                             onClick={() => handleModeRedirect("regular")}
                         >
@@ -72,7 +70,6 @@ export default function GroupsLeaderboard({
                         </Badge>
                         <Badge
                             variant={hasCustom ? "default" : "secondary"}
-                            disabled={!hasCustom}
                             className="cursor-pointer"
                             onClick={() => handleModeRedirect("custom")}
                         >

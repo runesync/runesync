@@ -3,8 +3,8 @@ import {GroupIronmanEntry, GroupIronmanHiscores} from "@/types/runescape";
 import GroupsLeaderboard from '@/components/app/groups/groups-leaderboard';
 
 export default async function GroupsModeSizeHome({params, searchParams}: {
-    params: { mode: string; size: string };
-    searchParams: { page?: string }
+    params: Promise<{ mode: string; size: string }>;
+    searchParams: Promise<{ page?: string }>
 }) {
     const {size, mode} = await params;
     const {page} = await searchParams;
